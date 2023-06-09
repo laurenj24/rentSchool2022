@@ -155,11 +155,13 @@
                                         <div class="field col-12 md:col-4 col-12 md:col-4">
                                             <p:outputLabel for="login">Login</p:outputLabel>
                                             <p:inputText id="login" readonly="#{userBean.isAnUpdate}" value="#{userBean.userSelected.login}"
+                                                         required="true"
                                                          pt:placeholder="login">
                                                 <f:ajax event="keyup"
                                                         render="loginMessage"
                                                         listener="#{userBean.loginExist()}"/>
                                                 <f:validator validatorId="loginValidator"/>
+                                                <f:validateLength for="login" minimum="4"/>
                                             </p:inputText>
                                             <h:message id="loginMessage" for="login" style="color: red"/>
                                         </div>
