@@ -99,15 +99,15 @@
                         <p:column rendered="#{not empty rentalBean.rentalSelected}">
                             <table class="table-view table-striped" width="100%">
                                 <tr>
-                                    <th>Nom &amp; Prénom</th>
+                                    <th>#{bundle['tableHeader.lastname']} #{bundle['tableHeader.firstname']}</th>
                                     <td>#{rentalBean.rentalSelected.borrower.lastname} #{rentalBean.rentalSelected.borrower.firstname}</td>
                                 </tr>
                                 <tr>
-                                    <th>Type de personne</th>
+                                    <th>Type</th>
                                     <td>#{rentalBean.rentalSelected.borrower.responsibleType}</td>
                                 </tr>
                                 <tr>
-                                    <th>Article(s)</th>
+                                    <th>#{bundle['header.navbar.articles']}</th>
                                     <td>
                                         <ui:repeat value="#{rentalBean.rentalSelected.rentalsArticlesByIdRental}" var="art">
                                             #{art.articlesByIdArticle.articleName}
@@ -115,16 +115,14 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th>Début location</th>
+                                    <th>#{bundle['tableHeader.rentalDateBegin']}</th>
                                     <td><h:outputText value="#{rentalBean.rentalSelected.dateBegin}"/></td>
                                 </tr>
                                 <tr>
-                                    <th>A rendre pour</th>
+                                    <th>#{bundle['tableHeader.rentalDateEnd']}</th>
                                     <td><h:outputText value="#{rentalBean.rentalSelected.dateEnd}"/></td>
                                 </tr>
-
                             </table>
-
                         </p:column>
                         <h:commandButton styleClass="button btn-success btn-lg btn-block" value="Fin de la location" type="submit" action="#{rentalBean.endRental}"/>
                     </p:outputPanel>

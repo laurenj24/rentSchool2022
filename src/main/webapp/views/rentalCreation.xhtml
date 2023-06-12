@@ -15,20 +15,25 @@
                     or userSession.getRole().getRoleName().trim() eq 'administrateur'}">
 
             <div class="container text-center">
+                <br/>
                 <h:form id="formDataTable">
                     <div class="row justify-content-md-center">
                         <div class="col" id="SelectionUserCol" >
-                            <p:outputLabel for="inputSearchUser" value="#{bundle['rentalPage.selectBorrower']}"/>
-                            <h:inputText id="inputSearchUser" value="#{rentalBean.userSearchText}" styleClass="form-control" pt:placeholder="#{bundle['form.search']}">
+                            <h3>
+                                <p:outputLabel for="inputSearchUser" value="#{bundle['rentalPage.selectBorrower']} :"/>
+                            </h3>
+
+                            <span class="filter-container ui-input-icon-left"> <i class="pi pi-search"></i>
+                            <p:inputText id="inputSearchUser" value="#{rentalBean.userSearchText}" styleClass="form-control" pt:placeholder="#{bundle['form.search']}">
                                 <f:ajax event="keyup"
-                                        render="userRadioTD"
+                                        render="borrowerRadioTD"
                                         listener="#{rentalBean.usersListByName}"/>
-                            </h:inputText>
+                            </p:inputText></span>
                             <br/>
-                            <p:dataTable id="userRadioTD"
+                            <p:dataTable id="borrowerRadioTD"
                                          value="#{rentalBean.borrowersList}" var="borrower"
                                          filteredValue="#{rentalBean.borrowersFilteredList}"
-                                         reflow="true" paginator="true" paginatorPosition="bottom"
+                                         reflow="true" paginator="true" rows="6" paginatorPosition="bottom"
                                          selection="#{rentalBean.borrowerSelected}"
                                          rowKey="#{borrower.id}"
                                          styleClass="table table-striped table-hover" >
@@ -45,19 +50,22 @@
                         </div>
                         <div class="col-md-auto"></div>
                         <div class="col" id="SelectionArticleCol" >
-                            <p:outputLabel for="inputSearchArticle" value="#{bundle['rentalPage.selectArticle']}"/>
-
-                            <h:inputText id="inputSearchArticle" value="#{rentalBean.articlesSearchText}" styleClass="form-control"
+                            <h3>
+                                <p:outputLabel for="inputSearchArticle" value="#{bundle['rentalPage.selectArticle']} :"/>
+                            </h3>
+                            <span class="filter-container ui-input-icon-left"> <i class="pi pi-search"></i>
+                            <p:inputText id="inputSearchArticle" value="#{rentalBean.articlesSearchText}" styleClass="form-control"
                                          pt:placeholder="#{bundle['form.search']}"
                                          onkeypress="if (events.which == '13'){return false; }">
                                 <f:ajax event="keyup"
                                         render="articleRadioTD"
                                         listener="#{rentalBean.articleListByNameRefBarcode}"/>
-                            </h:inputText>
+                            </p:inputText>
+                            </span>
                             <p:dataTable id="articleRadioTD"
                                          value="#{rentalBean.articlesList}" var="article"
                                          filteredValue="#{rentalBean.articlesFilteredList}"
-                                         reflow="true" paginator="true" paginatorPosition="bottom"
+                                         reflow="true" paginator="true"  rows="6" paginatorPosition="bottom"
                                          selection="#{rentalBean.articleSelected}"
                                          rowKey="#{article.idArticle}"
                                          styleClass="table table-striped table-hover">

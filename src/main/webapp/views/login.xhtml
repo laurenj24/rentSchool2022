@@ -19,21 +19,22 @@
             <div class="row justify-content-md-center">
                 <div class="col col-lg-3">
                     <h:graphicImage value="/pics/Logo_RentSchool.png" width="100px" height="100px"/>
-                    <h1 class="h3 mb-3 fw-normal">Sign in</h1>
+                    <h1 class="h3 mb-3 fw-normal">Portail de connexion</h1>
                     <h:form styleClass="form-signin w-100 m-auto">
-                        <div class="form-floating">
+                        <div class="form-group">
                             <h:inputText styleClass="form-control"
                                          id="loginInput" value="#{userConnectionBean.login}"
                                          label="Login" pt:placeholder="Login" pt:required="true" >
                             </h:inputText>
                         </div>
-                        <div class="form-floating">
+                        <div class="form-group">
                             <h:inputSecret styleClass="form-control" id="passwordInput"
-                                           value="#{userConnectionBean.password}" pt:placeholder="Password" pt:required ="true" >
+                                           value="#{userConnectionBean.password}" pt:placeholder="Mot de passe" pt:required ="true" >
                                 <!--            <f:validateRegex pattern=""/>-->
                             </h:inputSecret>
+                            <small id="login" class="form-text text-muted">Problème de connexion? Veuillez contacter l'administration</small>
                         </div>
-                        <h:commandButton styleClass="w-100 btn btn-lg btn-primary" value="Submit" action="#{userConnectionBean.connectionLogin}"/>
+                        <h:commandButton styleClass="w-100 btn btn-lg btn-primary" value="Se connecter" action="#{userConnectionBean.connectionLogin}"/>
                     </h:form>
                 </div>
             </div>

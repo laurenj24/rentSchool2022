@@ -6,8 +6,10 @@ import javax.persistence.*;
 import java.util.Objects;
 @NamedQueries( value = {
 
-@NamedQuery(name = "Borrowers.all", query = "SELECT b FROM Borrowers b WHERE b.DTYPE = 'Borrowers' "),
-@NamedQuery(name = "Borrowers.where", query = "SELECT b FROM Borrowers b WHERE b.DTYPE = 'Borrowers' and (b.firstname like :pFirstname or b.lastname like :pLastname)"),
+        @NamedQuery(name = "Borrowers.all", query = "SELECT b FROM Borrowers b WHERE b.DTYPE = 'Borrowers' "),
+        @NamedQuery(name = "Borrowers.where", query = "SELECT b FROM Borrowers b WHERE b.DTYPE = 'Borrowers' and (b.firstname like :pFirstname or b.lastname like :pLastname)"),
+        @NamedQuery(name="Borrowers.isUsedBorrower", query = "select COUNT(r) from Rentals r WHERE r.borrower = :pBorrower")
+
 })
 
 @Entity

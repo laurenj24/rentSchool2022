@@ -38,7 +38,12 @@ public class BorrowersService {
         return query.getResultList();
     }
 
-
+    public boolean isAnUsedBorrower(Borrowers borrower){
+        Query query = em.createNamedQuery("Borrowers.isUsedBorrower", Borrowers.class)
+                .setParameter("pBorrower",borrower);
+        Long result = (Long) query.getSingleResult();
+        return result > 0;
+    }
 
 
     /**

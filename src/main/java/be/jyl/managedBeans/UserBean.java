@@ -105,6 +105,23 @@ public class UserBean implements Serializable {
         listBorrowers = borrowersService.listBorrowers();
         return "borrowersList";
     }
+    public String deleteBorrower(){
+        {
+            try {
+                borrowersService.transaction.begin();
+                borrowersService.em.remove(borrowerSelected);
+                borrowersService.transaction.commit();
+                NotificationManager.addInfoMessage("notification.borrowerDeleted");
+            } finally {
+                if (borrowersService.transaction.isActive()) {
+                    borrowersService.transaction.rollback();
+                    NotificationManager.addErrorMessage("notification.users.error");
+                }
+            }
+            listBorrowers = borrowersService.listBorrowers();
+        }
+        return "borrowersList";
+    }
     //Ouvrir la modal et initialiser les champs:
     public void openDialogForNewBorrower() {
         log.log(Level.INFO,"openDialogForNewBorrower");
@@ -115,6 +132,9 @@ public class UserBean implements Serializable {
     public void openDialogForUpdateBorrower(){
         log.log(Level.INFO,"openDialogForUpdateBorrower");
         this.isAnUpdate = true;
+    }
+    public boolean isAnBorrowerUsed(Borrowers borrower){
+        return borrowersService.isAnUsedBorrower(borrower);
     }
 
     /** USERS **/
@@ -170,7 +190,7 @@ public class UserBean implements Serializable {
     public void resetPassword(){
 
     }
-    /** L'utilisateur se trouve dans une location * */
+    /** L'utilisateur se trouve dans une location ? * */
     public boolean isAnUserUsed(Users user){
         return usersService.isAnUsedUser(user);
     }
