@@ -26,6 +26,7 @@ public class RentalBean implements Serializable {
     private BorrowersService userService = new BorrowersService();
     private ArticlesService articlesService = new ArticlesService();
     private List<Rentals> rentalsList;
+    private List<Rentals> rentalsListFiltered;
     private Rentals rentalSelected;
     private String rentalSearchText;
     private Borrowers borrowerSelected;
@@ -170,8 +171,10 @@ public class RentalBean implements Serializable {
                 rentalsList = rentalsService.currentRentalsList();
                 articlesList = articlesService.articlesAvailableList();
                 endDateSelected = null;
+                NotificationManager.addInfoMessage("notification.articleAdded");
                 return "index.xhtml";
             } else {
+                log.log(Level.INFO,"NOTIF");
                 NotificationManager.addErrorMessage("notification.users.error");
                 //FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,"ATTENTION", "PrimeFaces rock"));
                 return "rentalCreation.xhtml";
@@ -318,5 +321,13 @@ public class RentalBean implements Serializable {
 
     public void setBorrowersFilteredList(List<Borrowers> borrowersFilteredList) {
         this.borrowersFilteredList = borrowersFilteredList;
+    }
+
+    public List<Rentals> getRentalsListFiltered() {
+        return rentalsListFiltered;
+    }
+
+    public void setRentalsListFiltered(List<Rentals> rentalsListFiltered) {
+        this.rentalsListFiltered = rentalsListFiltered;
     }
 }

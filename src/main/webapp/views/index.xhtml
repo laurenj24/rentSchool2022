@@ -14,121 +14,129 @@
                     or userSession.getRole().getRoleName().trim() eq 'secretariat'
                     or userSession.getRole().getRoleName().trim() eq 'administrateur'
                     or userSession.getRole().getRoleName().trim() eq 'gestionnaire de stock'}">
-        <!--       <h:outputText value="#{user.firstname}"/>-->
-        <div class="p-3">
-            <div class="row justify-content-md-center">
-                <div class="col-lg-8">
-                    <div class="row row-cols-1 row-cols-md-3 mb-3 text-center-group-item">
-                        <div class="col text-center">
-                            <div class="card mb-4 rounded-3 shadow-sm border-primary">
-                                <div class="card-header py-3">#{bundle['tableHeader.currentRental']}</div>
-                                <div class="card-body">
-                                    #{rentalBean.rentalsList.size()}
+            <!--       <h:outputText value="#{user.firstname}"/>-->
+            <div class="p-3">
+                <div class="row justify-content-md-center">
+                    <div class="col-lg-8">
+                        <div class="row row-cols-1 row-cols-md-3 mb-3 text-center-group-item">
+                            <div class="col text-center">
+                                <div class="card mb-4 rounded-3 shadow-sm border-primary">
+                                    <div class="card-header py-3">#{bundle['tableHeader.currentRental']}</div>
+                                    <div class="card-body">
+                                        #{rentalBean.rentalsList.size()}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col text-center">
-                            <div class="card mb-4 rounded-3 shadow-sm border-success">
-                                <div class="card-header py-3 border-primary">#{bundle["tableHeader.hardwareAvailable"]}</div>
-                                <div class="card-body">
-                                    #{rentalBean.articlesList.size()}
+                            <div class="col text-center">
+                                <div class="card mb-4 rounded-3 shadow-sm border-success">
+                                    <div class="card-header py-3 border-primary">#{bundle["tableHeader.hardwareAvailable"]}</div>
+                                    <div class="card-body">
+                                        #{rentalBean.articlesList.size()}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col text-center">
-                            <div class="card mb-4 rounded-3 shadow-sm border-danger ">
-                                <div class="card-header py-3">#{bundle['tableHeader.delays']}</div>
-                                <div class="card-body">
-                                    #{remindersBean.lateRentalsList.size()}
+                            <div class="col text-center">
+                                <div class="card mb-4 rounded-3 shadow-sm border-danger ">
+                                    <div class="card-header py-3">#{bundle['tableHeader.delays']}</div>
+                                    <div class="card-body">
+                                        #{remindersBean.lateRentalsList.size()}
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <div class="row justify-content-md-center">
+                    <div class="col-lg-8">
+                        <h:form id="form">
+                            <h:inputText id="inputSearchRental" value="#{rentalBean.rentalSearchText}"
+                                         styleClass="form-control"
+                                         a:placeholder="#{bundle['form.search']}">
+                                <f:ajax event="keyup"
+                                        render="dt-rental"
+                                        listener="#{rentalBean.rentalListBySearch()}"/>
+                            </h:inputText>
+
+                            <p:dataTable id="dt-rental" value="#{rentalBean.rentalsList}" var="itemRental"
+                                         filteredValue="#{rentalBean.rentalsListFiltered}"
+                                         reflow="true" paginator="true" paginatorPosition="bottom"
+                                         rowKey="#{itemRental.idRental}" rows="10"
+                                         styleClass="table table-striped table-hover">
+                                <p:column sortBy="#{itemRental.borrower.lastname}">
+                                    <f:facet name="header">#{bundle['tableHeader.lastname']}</f:facet>
+                                    #{itemRental.borrower.lastname}
+                                </p:column>
+                                <p:column sortBy="#{itemRental.borrower.firstname}">
+                                    <f:facet name="header">#{bundle['tableHeader.firstname']}</f:facet>
+                                    #{itemRental.borrower.firstname }
+                                </p:column>
+                                <p:column sortBy="#{itemRental.idRental}">
+                                    <f:facet name="header">#{bundle['tableHeader.rentalNumber']}</f:facet>
+                                    #{itemRental.idRental}
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">#{bundle['tableHeader.materials']}</f:facet>
+                                    <ui:repeat value="#{itemRental.rentalsArticlesByIdRental}" var="art">
+                                        #{art.articlesByIdArticle.articleName}
+                                    </ui:repeat>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">#{bundle['tableHeader.createdBy']}</f:facet>
+                                    <h:outputText value="#{itemRental.user.firstname}"/>
+
+                                </p:column>
+                                <p:column sortBy="#{itemRental.dateEnd}">
+                                    <f:facet name="header">#{bundle['tableHeader.rentalDateEnd']}</f:facet>
+                                    <h:outputText value="#{itemRental.dateEnd}">
+                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                    </h:outputText>
+                                </p:column>
+                                <p:column style="width: 3rem;text-align: center">
+                                    <p:commandButton update=":form:rentalDetail" oncomplete="PF('productDialog').show()"
+                                                     icon="pi pi-search" title="View">
+                                        <f:setPropertyActionListener value="#{itemRental}"
+                                                                     target="#{rentalBean.rentalSelected}"/>
+                                    </p:commandButton>
+                                </p:column>
+                            </p:dataTable>
+                            <!-- MODAL popup-->
+                            <p:dialog header="#{bundle['rentalPage.rentalInfo']}" widgetVar="productDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" width="400px">
+                                <p:outputPanel id="rentalDetail">
+                                    <p:column rendered="#{not empty rentalBean.rentalSelected}">
+                                        <table class="table-view table-striped" width="100%">
+                                            <tr>
+                                                <th>#{bundle['tableHeader.lastname']} #{bundle['tableHeader.firstname']}</th>
+                                                <td>#{rentalBean.rentalSelected.borrower.lastname} #{rentalBean.rentalSelected.borrower.firstname}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Type</th>
+                                                <td>#{rentalBean.rentalSelected.borrower.responsibleType}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>#{bundle['header.navbar.articles']}</th>
+                                                <td>
+                                                    <ui:repeat value="#{rentalBean.rentalSelected.rentalsArticlesByIdRental}" var="art">
+                                                        #{art.articlesByIdArticle.articleName}
+                                                    </ui:repeat>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>#{bundle['tableHeader.rentalDateBegin']}</th>
+                                                <td><h:outputText value="#{rentalBean.rentalSelected.dateBegin}"/></td>
+                                            </tr>
+                                            <tr>
+                                                <th>#{bundle['tableHeader.rentalDateEnd']}</th>
+                                                <td><h:outputText value="#{rentalBean.rentalSelected.dateEnd}"/></td>
+                                            </tr>
+                                        </table>
+                                    </p:column>
+                                    <h:commandButton styleClass="button btn-success btn-lg btn-block" value="Fin de la location" type="submit" action="#{rentalBean.endRental}"/>
+                                </p:outputPanel>
+                            </p:dialog>
+                        </h:form>
+                    </div>
+                </div>
             </div>
-            <h:form id="form">
-            <h:inputText id="inputSearchRental" value="#{rentalBean.rentalSearchText}"
-                         styleClass="form-control"
-                         a:placeholder="#{bundle['form.search']}">
-                <f:ajax event="keyup"
-                        render="dt-rental"
-                        listener="#{rentalBean.rentalListBySearch()}"/>
-            </h:inputText>
-
-                <p:dataTable id="dt-rental" value="#{rentalBean.rentalsList}" var="itemRental" styleClass="table table-striped">
-                    <p:column>
-                        <f:facet name="header">#{bundle['tableHeader.lastname']}</f:facet>
-                        #{itemRental.borrower.lastname}
-                    </p:column>
-                    <p:column>
-                        <f:facet name="header">#{bundle['tableHeader.firstname']}</f:facet>
-                        #{itemRental.borrower.firstname }
-                    </p:column>
-                    <p:column>
-                        <f:facet name="header">#{bundle['tableHeader.rentalNumber']}</f:facet>
-                        #{itemRental.idRental}
-                    </p:column>
-                    <p:column>
-                        <f:facet name="header">#{bundle['tableHeader.materials']}</f:facet>
-                        <ui:repeat value="#{itemRental.rentalsArticlesByIdRental}" var="art">
-                            #{art.articlesByIdArticle.articleName}
-                        </ui:repeat>
-                    </p:column>
-                    <p:column>
-                        <f:facet name="header">#{bundle['tableHeader.createdBy']}</f:facet>
-                        <h:outputText value="#{itemRental.user.firstname}"/>
-
-                    </p:column>
-                    <p:column>
-                        <f:facet name="header">#{bundle['tableHeader.rentalDateEnd']}</f:facet>
-                        <h:outputText value="#{itemRental.dateEnd}">
-                            <f:convertDateTime pattern="dd/MM/yyyy"/>
-                        </h:outputText>
-                    </p:column>
-                    <p:column style="width: 3rem;text-align: center">
-                        <p:commandButton update=":form:rentalDetail" oncomplete="PF('productDialog').show()"
-                                         icon="pi pi-search" title="View">
-                            <f:setPropertyActionListener value="#{itemRental}"
-                                                         target="#{rentalBean.rentalSelected}"/>
-                        </p:commandButton>
-                    </p:column>
-                </p:dataTable>
-                <!-- MODAL popup-->
-                <p:dialog header="#{bundle['rentalPage.rentalInfo']}" widgetVar="productDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" width="400px">
-                    <p:outputPanel id="rentalDetail">
-                        <p:column rendered="#{not empty rentalBean.rentalSelected}">
-                            <table class="table-view table-striped" width="100%">
-                                <tr>
-                                    <th>#{bundle['tableHeader.lastname']} #{bundle['tableHeader.firstname']}</th>
-                                    <td>#{rentalBean.rentalSelected.borrower.lastname} #{rentalBean.rentalSelected.borrower.firstname}</td>
-                                </tr>
-                                <tr>
-                                    <th>Type</th>
-                                    <td>#{rentalBean.rentalSelected.borrower.responsibleType}</td>
-                                </tr>
-                                <tr>
-                                    <th>#{bundle['header.navbar.articles']}</th>
-                                    <td>
-                                        <ui:repeat value="#{rentalBean.rentalSelected.rentalsArticlesByIdRental}" var="art">
-                                            #{art.articlesByIdArticle.articleName}
-                                        </ui:repeat>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>#{bundle['tableHeader.rentalDateBegin']}</th>
-                                    <td><h:outputText value="#{rentalBean.rentalSelected.dateBegin}"/></td>
-                                </tr>
-                                <tr>
-                                    <th>#{bundle['tableHeader.rentalDateEnd']}</th>
-                                    <td><h:outputText value="#{rentalBean.rentalSelected.dateEnd}"/></td>
-                                </tr>
-                            </table>
-                        </p:column>
-                        <h:commandButton styleClass="button btn-success btn-lg btn-block" value="Fin de la location" type="submit" action="#{rentalBean.endRental}"/>
-                    </p:outputPanel>
-                </p:dialog>
-            </h:form>
-        </div>
         </c:if>
         <c:if test="#{userSession.getRole().getRoleName().trim() ne 'gestionnaire de stock'
                     and userSession.getRole().getRoleName().trim() ne 'direction'

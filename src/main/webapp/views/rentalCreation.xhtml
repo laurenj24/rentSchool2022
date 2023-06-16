@@ -16,7 +16,9 @@
 
             <div class="container text-center">
                 <br/>
+
                 <h:form id="formDataTable">
+                    <p:growl id="messages" showDetail="true"/>
                     <div class="row justify-content-md-center">
                         <div class="col" id="SelectionUserCol" >
                             <h3>
@@ -85,7 +87,10 @@
                         <div class="col col-lg-4">
                             <p:outputLabel style="font-weight: bold" for="datePikerRental" value="#{bundle['tableHeader.dueDate']}"/>
                             <br/>
-                            <p:datePicker id="datePikerRental" value="#{rentalBean.endDateSelected}" mindate="#{rentalBean.minDate}" pt:required="true" pt:placeholder="ex: 01/01/2023">
+                            <p:datePicker id="datePikerRental" value="#{rentalBean.endDateSelected}"
+                                          mindate="#{rentalBean.minDate}"
+                                          required="true"
+                                          pt:placeholder="ex: 01/01/2023">
                                 <p:ajax event="dateSelect" listener="#{rentalBean.dateSelection}"/>
                                 <p:ajax event="keyup" listener="#{rentalBean.dateSelectionKeyUpEvent}"/>
                             </p:datePicker>
