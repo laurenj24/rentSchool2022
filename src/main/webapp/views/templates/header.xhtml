@@ -33,6 +33,9 @@
                                 </h:commandLink>
                             </h:form>
                         </li>
+                        <c:if test="#{userSession.getRole().getRoleName().trim() eq 'direction'
+                    or userSession.getRole().getRoleName().trim() eq 'secretariat'
+                    or userSession.getRole().getRoleName().trim() eq 'administrateur'}">
                         <li class="nav-item active">
                             <h:form>
                                 <h:commandLink class="nav-link"
@@ -41,9 +44,6 @@
                                 </h:commandLink>
                             </h:form>
                         </li>
-                        <c:if test="#{userSession.getRole().getRoleName().trim() eq 'direction'
-                    or userSession.getRole().getRoleName().trim() eq 'secretariat'
-                    or userSession.getRole().getRoleName().trim() eq 'administrateur'}">
                             <li class="nav-item active">
                                 <h:link class="nav-link" outcome="rentalCreation.xhtml"
                                         value="#{bundle['header.navbar.makeLocation']}"/>

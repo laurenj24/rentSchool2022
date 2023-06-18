@@ -5,7 +5,7 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:c="http://java.sun.com/jstl/core"
       xmlns:p="http://primefaces.org/ui">
 
@@ -23,7 +23,7 @@
                <div class="card crud">
                   <h:form id="form">
                      <p:growl id="messages" showDetail="false"/>
-                     <h:inputText id="inputSearch" value="#{userBean.borrowerSearchText}" styleClass="form-control" a:placeholder="Rechercher" >
+                     <h:inputText id="inputSearch" value="#{userBean.borrowerSearchText}" styleClass="form-control" pt:placeholder="Rechercher" >
                         <f:ajax event="keyup"
                                 render="dt-users"
                                 listener="#{userBean.inputSearchBorrower}"/>
@@ -117,7 +117,8 @@
                               <div class="field">
                                  <p:outputLabel for="firstname">#{bundle['tableHeader.firstname']}</p:outputLabel>
                                  <p:inputText id="firstname" value="#{userBean.borrowerSelected.firstname}"
-                                              required="true" requiredMessage="Le prénom doit avoir minimum 4 caractères">
+                                              required="true" requiredMessage="Le prénom doit avoir minimum 4 caractères"
+                                              pt:placeholder="ex: John" >
                                     <f:validateLength for="lastname" minimum="3"/>
                                  </p:inputText>
                                  <h:message id="firstnameMessage" for="firstname" style="color: red"/>
@@ -127,7 +128,8 @@
                               <div class="field">
                                  <p:outputLabel for="lastname">#{bundle['tableHeader.lastname']}</p:outputLabel>
                                  <p:inputText id="lastname" value="#{userBean.borrowerSelected.lastname}"
-                                              required="true" requiredMessage="Le nom doit avoir minimum 3 caractères">
+                                              required="true" requiredMessage="Le nom doit avoir minimum 3 caractères"
+                                              pt:placeholder="ex: Due">
                                     <f:validateLength for="lastname" minimum="3"/>
                                  </p:inputText>
                                  <h:message id="lastnameMessage" for="lastname" style="color: red"/>
@@ -137,7 +139,8 @@
                                  <p:outputLabel for="email">E-mail</p:outputLabel>
                                  <p:inputText id="email" value="#{userBean.borrowerSelected.email}"
                                               required="false"
-                                              validatorMessage="email incorecte" requiredMessage="L'email est incorecte ">
+                                              validatorMessage="email incorecte" requiredMessage="L'email est incorecte "
+                                              pt:placeholder="ex: john.due@email.be">
                                     <f:validateRegex pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"/>
                                  </p:inputText>
                                  <h:message id="emailMessage" for="email" style="color: red"/>
@@ -146,7 +149,8 @@
                               <div class="field">
                                  <p:outputLabel for="adress">Addresse</p:outputLabel>
                                  <p:inputText id="adress" value="#{userBean.borrowerSelected.address}"
-                                              required="true" requiredMessage="L'adresse ne doit pas être en dessous de 3 caractères">
+                                              required="true" requiredMessage="L'adresse ne doit pas être en dessous de 3 caractères"
+                                              pt:placeholder="ex: Avenue Rosevelt, 5 ">
                                     <f:validateLength for="lastname" minimum="4"/>
                                  </p:inputText>
                                  <h:message id="adressMessage" for="adress" style="color: red"/>

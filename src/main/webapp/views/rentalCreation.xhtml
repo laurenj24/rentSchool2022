@@ -18,8 +18,9 @@
                 <br/>
 
                 <h:form id="formDataTable">
-                    <p:growl id="messages" showDetail="true"/>
-                    <div class="row justify-content-md-center">
+                    <p:growl id="messages" showDetail="false"/>
+
+                    <div class="row">
                         <div class="col" id="SelectionUserCol" >
                             <h3>
                                 <p:outputLabel for="inputSearchUser" value="#{bundle['rentalPage.selectBorrower']} :"/>
@@ -35,7 +36,7 @@
                             <p:dataTable id="borrowerRadioTD"
                                          value="#{rentalBean.borrowersList}" var="borrower"
                                          filteredValue="#{rentalBean.borrowersFilteredList}"
-                                         reflow="true" paginator="true" rows="6" paginatorPosition="bottom"
+                                         reflow="true" paginator="true" rows="5" paginatorPosition="bottom"
                                          selection="#{rentalBean.borrowerSelected}"
                                          rowKey="#{borrower.id}"
                                          styleClass="table table-striped table-hover" >
@@ -67,7 +68,7 @@
                             <p:dataTable id="articleRadioTD"
                                          value="#{rentalBean.articlesList}" var="article"
                                          filteredValue="#{rentalBean.articlesFilteredList}"
-                                         reflow="true" paginator="true"  rows="6" paginatorPosition="bottom"
+                                         reflow="true" paginator="true"  rows="5" paginatorPosition="bottom"
                                          selection="#{rentalBean.articleSelected}"
                                          rowKey="#{article.idArticle}"
                                          styleClass="table table-striped table-hover">

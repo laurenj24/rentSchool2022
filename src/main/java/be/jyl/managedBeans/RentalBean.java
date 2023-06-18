@@ -119,6 +119,8 @@ public class RentalBean implements Serializable {
      */
     public String submitNewRental() throws ParseException {
         log.log(Level.INFO,"createRental()");
+        NotificationManager.addInfoMessage("notification.users.error");
+
         if (userSession != null){
             if (borrowerSelected != null && articleSelected != null && endDateSelected != null){
 

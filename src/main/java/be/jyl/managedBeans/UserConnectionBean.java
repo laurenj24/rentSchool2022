@@ -1,8 +1,12 @@
 package be.jyl.managedBeans;
 
+import be.jyl.entities.Borrowers;
+import be.jyl.entities.Roles;
 import be.jyl.entities.Users;
+import be.jyl.enums.ResponsibleType;
 import be.jyl.services.BorrowersService;
 import be.jyl.services.UsersService;
+import be.jyl.tools.EMF;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
@@ -10,6 +14,8 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.servlet.http.HttpSession;
 import java.io.Serializable;
 
@@ -21,7 +27,8 @@ public class UserConnectionBean implements Serializable {
     private String password ;
 
     public String connectionLogin(){
-        //TODO TESTS pour lancer la créate table : CODEFIRST entity to DB
+
+        // TESTS pour lancer la créate table : CODEFIRST entity to DB
 //        EntityManager em = EMF.getEM();
 //        EntityTransaction trs  = em.getTransaction();
 //        trs.begin();
@@ -39,13 +46,13 @@ public class UserConnectionBean implements Serializable {
 //        em.persist(borrower);
 //        //myUser
 //        Users user1 = new Users();
-//        user1.setFirstname("user");
-//        user1.setLastname("user1");
-//        user1.setAddress("rue des utilisateurs");
+//        user1.setFirstname("Jean-Yves");
+//        user1.setLastname("Laurent");
+//        user1.setAddress("rue des Admins");
 //        user1.setEmail("user1@user.com");
-//        user1.setResponsibleType(ResponsibleType.teacher);
-//        user1.setLogin("user1");
-//        user1.setPassword("1234");
+//        user1.setResponsibleType(ResponsibleType.staff);
+//        user1.setLogin("admin");
+//        user1.setPassword(new UsersService().hashingPassword("admin"));
 //        user1.setRole(role);
 //        em.persist(user1);
 //        //Borow2
@@ -60,8 +67,6 @@ public class UserConnectionBean implements Serializable {
 ////        user2.setRole(role);
 //        em.persist(borrower2);
 //        trs.commit();
-
-
 
 
         /** Test Login and password */
@@ -86,7 +91,7 @@ public class UserConnectionBean implements Serializable {
             }
          }
          else {
-             FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_ERROR,null,"Login ou password incorecte"));
+             FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_ERROR,null,"Login ou password incorrecte"));
              return "fail";
          }
     }
